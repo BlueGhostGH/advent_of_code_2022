@@ -3,25 +3,41 @@ use std::num::ParseIntError;
 advent_of_code::day!(01);
 
 type ParseError = ParseIntError;
-type Num = u32;
+type Calories = u32;
+type Elf = Vec<Calories>;
 
 impl advent_of_code::Solution<'_> for Day01 {
-    type Input = Vec<Num>;
+    type Input = Vec<Elf>;
     type ParseError = ParseError;
 
-    type P1 = usize;
+    type P1 = u32;
     type P2 = u32;
 
     fn parse(input: &str) -> Result<Self::Input, Self::ParseError> {
-        input.lines().map(str::parse).collect()
+        input
+            .lines()
+            .collect::<Vec<_>>()
+            .split(|line| line.is_empty())
+            .map(|elf| elf.iter().copied().map(str::parse).collect())
+            .collect()
     }
 
-    fn part1(input: &[Num]) -> Self::P1 {
-        input.iter().count()
+    fn part1(input: &[Elf]) -> Self::P1 {
+        input
+            .iter()
+            .map(|elf| elf.iter().sum())
+            .max()
+            .unwrap_or_default()
     }
 
-    fn part2(input: &[Num]) -> Self::P2 {
-        input.iter().sum()
+    fn part2(input: &[Elf]) -> Self::P2 {
+        let mut input = input
+            .iter()
+            .map(|elf| elf.iter().sum::<u32>())
+            .collect::<Vec<_>>();
+        input.sort_by(|first, second| second.cmp(first));
+
+        input[..3].iter().sum()
     }
 }
 
@@ -29,12 +45,23 @@ impl advent_of_code::Solution<'_> for Day01 {
 mod tests {
     use advent_of_code::Solution;
 
-    const INPUT: &str = "1
-2
-3";
+    const INPUT: &str = "1000
+2000
+3000
+
+4000
+
+5000
+6000
+
+7000
+8000
+9000
+
+10000";
 
     #[test]
     fn test() {
-        assert_eq!(super::Day01::solve(INPUT), Ok((3, 6)));
+        assert_eq!(super::Day01::solve(INPUT), Ok((24000, 45000)));
     }
 }

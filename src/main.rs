@@ -6,6 +6,6 @@ mod day01;
 
 fn main() {
     advent_of_code::days!(
-        01 => (10, 55)
+        01 => (68467, 203420)
     );
 }
