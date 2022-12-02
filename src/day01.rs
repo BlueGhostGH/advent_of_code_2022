@@ -1,8 +1,6 @@
-use std::num::ParseIntError;
-
 advent_of_code::day!(01);
 
-type ParseError = ParseIntError;
+type ParseError = ::std::num::ParseIntError;
 type Calories = u32;
 type Elf = Vec<Calories>;
 
@@ -13,7 +11,7 @@ impl advent_of_code::Solution<'_> for Day01 {
     type P1 = u32;
     type P2 = u32;
 
-    fn parse(input: &str) -> Result<Self::Input, Self::ParseError> {
+    fn parse(input: &str) -> ::std::result::Result<Self::Input, Self::ParseError> {
         input
             .lines()
             .collect::<Vec<_>>()
