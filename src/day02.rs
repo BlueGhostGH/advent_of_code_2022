@@ -72,8 +72,10 @@ pub(crate) mod round {
     }
 }
 
+type Round = (round::Play, Column);
+
 impl advent_of_code::Solution<'_> for Day02 {
-    type Input = Vec<(round::Play, Column)>;
+    type Input = Vec<Round>;
     type ParseError = Error;
 
     type P1 = u32;
@@ -117,7 +119,7 @@ impl advent_of_code::Solution<'_> for Day02 {
             .collect()
     }
 
-    fn part1(input: &[(round::Play, Column)]) -> Self::P1 {
+    fn part1(input: &[Round]) -> Self::P1 {
         input
             .iter()
             .map(|(opponent, column)| {
@@ -134,7 +136,7 @@ impl advent_of_code::Solution<'_> for Day02 {
             .sum()
     }
 
-    fn part2(input: &[(round::Play, Column)]) -> Self::P2 {
+    fn part2(input: &[Round]) -> Self::P2 {
         input
             .iter()
             .map(|(opponent, column)| {
