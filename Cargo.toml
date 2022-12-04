@@ -1,7 +1,2 @@
-[package]
-name = "advent_of_code"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-paste = "1.0.9"
+[workspace]
+members = ["core", "calorie_counting", "temp", "runner"]

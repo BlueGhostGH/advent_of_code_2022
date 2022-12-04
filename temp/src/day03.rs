@@ -1,4 +1,4 @@
-advent_of_code::day!(03);
+temp::day!(03);
 
 type Item = u8;
 
@@ -21,7 +21,7 @@ fn item_priority(item: u8) -> u32 {
     }
 }
 
-impl advent_of_code::Solution<'_> for Day03 {
+impl temp::Solution<'_> for Day03 {
     type Input = Vec<Backpack>;
     type ParseError = Error;
 
@@ -140,7 +140,7 @@ impl ::std::error::Error for Error {
 
 #[cfg(test)]
 mod tests {
-    use advent_of_code::Solution;
+    use temp::Solution;
 
     const INPUT: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL

@@ -1,4 +1,4 @@
-advent_of_code::day!(02);
+temp::day!(02);
 
 #[derive(Debug)]
 pub enum Column {
@@ -74,7 +74,7 @@ pub(crate) mod round {
 
 type Round = (round::Play, Column);
 
-impl advent_of_code::Solution<'_> for Day02 {
+impl temp::Solution<'_> for Day02 {
     type Input = Vec<Round>;
     type ParseError = Error;
 
@@ -185,7 +185,7 @@ impl ::std::error::Error for Error {
 
 #[cfg(test)]
 mod tests {
-    use advent_of_code::Solution;
+    use temp::Solution;
 
     const INPUT: &str = "A Y
 B X

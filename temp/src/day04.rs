@@ -1,9 +1,9 @@
-advent_of_code::day!(04);
+temp::day!(04);
 
 type Assignment = ::std::collections::HashSet<u64>;
 type Pair = (Assignment, Assignment);
 
-impl advent_of_code::Solution<'_> for Day04 {
+impl temp::Solution<'_> for Day04 {
     type Input = Vec<Pair>;
     type ParseError = Error;
 
@@ -78,7 +78,7 @@ impl From<::std::num::ParseIntError> for Error {
 
 #[cfg(test)]
 mod tests {
-    use advent_of_code::Solution;
+    use temp::Solution;
 
     const INPUT: &str = "2-4,6-8
 2-3,4-5

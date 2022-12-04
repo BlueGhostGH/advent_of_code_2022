@@ -22,7 +22,7 @@ macro_rules! day {
         paste::paste! {
             pub struct [<Day $day>];
 
-            impl advent_of_code::Day for [<Day $day>] {
+            impl temp::Day for [<Day $day>] {
                 fn day() -> usize {
                     $day
                 }

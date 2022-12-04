@@ -1,0 +1,13 @@
+[package]
+name = "runner"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+paste = "1.0"
+
+chumsky = "0.8"
+
+core = { path = "../core" }
+
+calorie_counting = { path = "../calorie_counting" }

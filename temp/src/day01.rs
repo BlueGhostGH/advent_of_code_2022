@@ -1,10 +1,10 @@
-advent_of_code::day!(01);
+temp::day!(01);
 
 type ParseError = ::std::num::ParseIntError;
 type Calories = u32;
 type Elf = Vec<Calories>;
 
-impl advent_of_code::Solution<'_> for Day01 {
+impl temp::Solution<'_> for Day01 {
     type Input = Vec<Elf>;
     type ParseError = ParseError;
 
@@ -41,7 +41,7 @@ impl advent_of_code::Solution<'_> for Day01 {
 
 #[cfg(test)]
 mod tests {
-    use advent_of_code::Solution;
+    use temp::Solution;
 
     const INPUT: &str = "1000
 2000
