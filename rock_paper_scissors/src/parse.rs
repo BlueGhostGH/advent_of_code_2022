@@ -12,14 +12,15 @@ fn round() -> core::BParser<crate::Line> {
         .boxed()
 }
 
-fn parser() -> core::BParser<Vec<crate::Line>> {
+fn parser() -> core::BParser<Box<[crate::Line]>> {
     round()
         .separated_by(newline())
+        .map(Vec::into_boxed_slice)
         .padded()
         .then_ignore(end())
         .boxed()
 }
 
-pub fn parse(input: &str) -> Result<Vec<crate::Line>, Vec<core::Error>> {
+pub fn parse(input: &str) -> Result<Box<[crate::Line]>, Vec<core::Error>> {
     parser().parse(input)
 }

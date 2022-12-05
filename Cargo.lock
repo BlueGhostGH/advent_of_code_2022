@@ -113,6 +113,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "rucksack_reorganization"
+version = "0.0.0"
+dependencies = [
+ "chumsky",
+ "core",
+]
+
+[[package]]
 name = "runner"
 version = "0.0.0"
 dependencies = [
@@ -121,6 +129,7 @@ dependencies = [
  "core",
  "paste",
  "rock_paper_scissors",
+ "rucksack_reorganization",
 ]
 
 [[package]]

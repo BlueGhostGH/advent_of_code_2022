@@ -15,14 +15,15 @@ fn elf() -> core::BParser<crate::Elf> {
         .boxed()
 }
 
-fn parser() -> core::BParser<Vec<crate::Elf>> {
+fn parser() -> core::BParser<Box<[crate::Elf]>> {
     elf()
         .separated_by(newline())
+        .map(Vec::into_boxed_slice)
         .padded()
         .then_ignore(end())
         .boxed()
 }
 
-pub fn parse(input: &str) -> Result<Vec<crate::Elf>, Vec<core::Error>> {
+pub fn parse(input: &str) -> Result<Box<[crate::Elf]>, Vec<core::Error>> {
     parser().parse(input)
 }

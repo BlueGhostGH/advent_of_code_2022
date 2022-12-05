@@ -1,2 +1,9 @@
 [workspace]
-members = ["core", "calorie_counting", "rock_paper_scissors", "temp", "runner"]
+members = [
+    "core",
+    "calorie_counting",
+    "rock_paper_scissors",
+    "rucksack_reorganization",
+    "temp",
+    "runner",
+]
