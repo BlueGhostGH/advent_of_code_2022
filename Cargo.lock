@@ -20,6 +20,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "camp_cleanup"
+version = "0.0.0"
+dependencies = [
+ "chumsky",
+ "core",
+]
+
+[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -125,6 +133,7 @@ name = "runner"
 version = "0.0.0"
 dependencies = [
  "calorie_counting",
+ "camp_cleanup",
  "chumsky",
  "core",
  "paste",
@@ -140,13 +149,6 @@ version = "0.0.0"
 dependencies = [
  "chumsky",
  "core",
-]
-
-[[package]]
-name = "temp"
-version = "0.1.0"
-dependencies = [
- "paste",
 ]
 
 [[package]]

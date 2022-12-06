@@ -4,7 +4,8 @@ members = [
     "calorie_counting",
     "rock_paper_scissors",
     "rucksack_reorganization",
+    "supply_stacks",
+    "camp_cleanup",
     "tuning_trouble",
-    "temp",
     "runner",
 ]
