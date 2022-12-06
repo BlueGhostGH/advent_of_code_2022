@@ -1,40 +1,26 @@
-use chumsky::{
-    primitive::{end, filter},
-    text::{newline, TextParser},
-    Parser,
-};
-
-fn rucksack() -> core::BParser<crate::Rucksack> {
-    filter(char::is_ascii_alphabetic)
-        .repeated()
-        .at_least(1)
-        .collect::<String>()
-        .map(|line| {
-            let line = line.as_bytes();
-            let (first, second) = line.split_at(line.len() / 2);
-
-            let first = crate::Compartment {
-                items: first.iter().copied().collect(),
-            };
-
-            let second = crate::Compartment {
-                items: second.iter().copied().collect(),
-            };
-
-            crate::Rucksack { first, second }
-        })
-        .boxed()
-}
-
-fn parser() -> core::BParser<Box<[crate::Rucksack]>> {
-    rucksack()
-        .separated_by(newline())
-        .map(Vec::into_boxed_slice)
-        .padded()
-        .then_ignore(end())
-        .boxed()
-}
-
 pub fn parse(input: &str) -> Option<Box<[crate::Rucksack]>> {
-    parser().parse(input).ok()
+    input
+        .is_ascii()
+        .then(|| {
+            input
+                .lines()
+                .map(str::as_bytes)
+                .map(|line| {
+                    if line.len() % 2 == 0 {
+                        let (first, second) = line.split_at(line.len() / 2);
+
+                        let (first, second) = (
+                            crate::Compartment::from(first),
+                            crate::Compartment::from(second),
+                        );
+
+                        Some(crate::Rucksack { first, second })
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Option<Vec<_>>>()
+                .map(Vec::into_boxed_slice)
+        })
+        .flatten()
 }

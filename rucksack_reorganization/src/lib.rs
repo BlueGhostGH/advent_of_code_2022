@@ -50,6 +50,14 @@ pub fn part2(rucksacks: &[Rucksack]) -> u64 {
         .sum()
 }
 
+impl From<&[Item]> for Compartment {
+    fn from(items: &[Item]) -> Self {
+        Compartment {
+            items: items.iter().copied().collect(),
+        }
+    }
+}
+
 impl Rucksack {
     fn compute_common_sum(&self) -> u64 {
         let Rucksack { first, second } = self;
@@ -69,10 +77,10 @@ impl Rucksack {
     }
 }
 
-fn item_priority(item: u8) -> u64 {
+fn item_priority(item: Item) -> u64 {
     match item {
-        b'a'..=b'z' => item as u64 - 96,
-        b'A'..=b'Z' => item as u64 - 38,
+        b'a'..=b'z' => u64::from(item) - 96,
+        b'A'..=b'Z' => u64::from(item) - 38,
         _ => unreachable!(),
     }
 }

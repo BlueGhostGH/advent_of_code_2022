@@ -115,10 +115,6 @@ version = "0.0.0"
 [[package]]
 name = "rucksack_reorganization"
 version = "0.0.0"
-dependencies = [
- "chumsky",
- "core",
-]
 
 [[package]]
 name = "runner"
