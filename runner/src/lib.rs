@@ -2,6 +2,9 @@
 macro_rules! days {
     ($($day: ident => ($part1: expr, $part2: expr)),+) => {
         paste::paste! {
+            let mut total_days = ::std::time::Duration::ZERO;
+            let total_real = ::std::time::Instant::now();
+
             $(
                 {
                     let day = [<$day>]::DAY;
@@ -44,30 +47,17 @@ macro_rules! days {
                     };
 
                     let total_time = input_time + part1_time + part2_time;
+                    total_days += total_time;
 
                     println!(
                         "Day {day} ({total_time:?}):\n    Parsing: {input_time:?}\n    Part 1 ({part1_time:?}): {part1:?}\n    Part 2 ({part2_time:?}): {part2:?}",
                     );
                 }
             )+
-            // $(
-            //     let [<day_ $day>] = [<day $day>]::[<Day $day>]::run([<day $day>]::[<Day $day>]::input(), $ans_1, $ans_2).unwrap();
-            // )+
 
-            // $(
-            //     println!(
-            //         "Day {}({:?}):\n    Part 1({:?}): {:?}\n    Part 2({:?}): {:?}",
-            //         $day, [<day_ $day>].total, [<day_ $day>].part_1.1, [<day_ $day>].part_1.0, [<day_ $day>].part_2.1, [<day_ $day>].part_2.0
-            //     );
-            // )+
+            let total_real = total_real.elapsed();
 
-            // let total: ::std::time::Duration = [
-            //     $(
-            //         [<day_ $day>].total
-            //     ),+
-            // ].iter().sum();
-
-            // println!("\nTotal: {:?}", total);
+            println!("\nTotal times:\n    Days: {total_days:?}\n    Real: {total_real:?}")
         }
     };
 }
