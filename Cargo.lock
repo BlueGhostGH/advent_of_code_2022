@@ -18,10 +18,6 @@ version = "0.0.0"
 [[package]]
 name = "camp_cleanup"
 version = "0.0.0"
-dependencies = [
- "chumsky",
- "core",
-]
 
 [[package]]
 name = "cfg-if"

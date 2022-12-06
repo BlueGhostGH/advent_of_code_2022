@@ -1,35 +1,19 @@
-use chumsky::{
-    primitive::{end, just},
-    text::{int, newline, TextParser},
-    Parser,
-};
-
-fn assignment() -> core::BParser<crate::Assignment> {
-    int(10)
-        .from_str::<u64>()
-        .unwrapped()
-        .then_ignore(just('-'))
-        .then(int(10).from_str().unwrapped())
-        .map(|(start, end)| (start..=end).collect())
-        .boxed()
-}
-
-fn pair() -> core::BParser<crate::Pair> {
-    assignment()
-        .then_ignore(just(','))
-        .then(assignment())
-        .boxed()
-}
-
-fn parser() -> core::BParser<Box<[crate::Pair]>> {
-    pair()
-        .separated_by(newline())
-        .map(Vec::into_boxed_slice)
-        .padded()
-        .then_ignore(end())
-        .boxed()
-}
-
 pub fn parse(input: &str) -> Option<Box<[crate::Pair]>> {
-    parser().parse(input).ok()
+    input
+        .lines()
+        .map(|line| {
+            let (first, second) = line.split_once(',')?;
+
+            let [first, second] = [first, second].map(|assignment| {
+                let (start, end) = assignment.split_once('-')?;
+
+                let (start, end) = (start.parse().ok()?, end.parse().ok()?);
+
+                Some((start..=end).collect())
+            });
+
+            Some((first?, second?))
+        })
+        .collect::<Option<Vec<_>>>()
+        .map(Vec::into_boxed_slice)
 }
