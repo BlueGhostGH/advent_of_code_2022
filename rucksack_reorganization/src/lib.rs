@@ -8,10 +8,10 @@ pub const DAY: usize = 3;
 mod parse;
 pub use parse::parse;
 
-pub type Item = u8;
+type Item = u8;
 
 #[derive(Debug)]
-pub struct Compartment {
+struct Compartment {
     items: HashSet<Item>,
 }
 

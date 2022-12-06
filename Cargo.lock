@@ -130,6 +130,15 @@ dependencies = [
  "paste",
  "rock_paper_scissors",
  "rucksack_reorganization",
+ "supply_stacks",
+]
+
+[[package]]
+name = "supply_stacks"
+version = "0.0.0"
+dependencies = [
+ "chumsky",
+ "core",
 ]
 
 [[package]]

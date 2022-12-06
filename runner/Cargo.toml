@@ -13,3 +13,4 @@ core = { path = "../core" }
 calorie_counting = { path = "../calorie_counting" }
 rock_paper_scissors = { path = "../rock_paper_scissors" }
 rucksack_reorganization = { path = "../rucksack_reorganization" }
+supply_stacks = { path = "../supply_stacks" }

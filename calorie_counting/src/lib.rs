@@ -1,24 +1,11 @@
 pub const INPUT: &str = include_str!("./input.txt");
 pub const DAY: usize = 1;
 
-type Calories = u64;
-type Elf = Box<[Calories]>;
-
 mod parse;
 pub use parse::parse;
 
-fn ordered_insert<const C: usize, T>(slice: &mut [T; C], value: T)
-where
-    T: Copy + PartialOrd,
-{
-    for i in 0..C {
-        if slice[i] < value {
-            slice.copy_within(i..C - 1, i + 1);
-            slice[i] = value;
-            return;
-        }
-    }
-}
+type Calories = u64;
+type Elf = Box<[Calories]>;
 
 pub fn part1(elves: &[Elf]) -> Option<Calories> {
     elves.iter().map(|elf| elf.iter().sum()).max()
@@ -35,6 +22,19 @@ pub fn part2(elves: &[Elf]) -> Option<Calories> {
     });
 
     Some(top.into_iter().sum())
+}
+
+fn ordered_insert<const C: usize, T>(slice: &mut [T; C], value: T)
+where
+    T: Copy + PartialOrd,
+{
+    for i in 0..C {
+        if slice[i] < value {
+            slice.copy_within(i..C - 1, i + 1);
+            slice[i] = value;
+            return;
+        }
+    }
 }
 
 #[cfg(test)]
