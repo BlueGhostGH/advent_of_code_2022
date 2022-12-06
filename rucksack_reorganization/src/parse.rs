@@ -35,6 +35,6 @@ fn parser() -> core::BParser<Box<[crate::Rucksack]>> {
         .boxed()
 }
 
-pub fn parse(input: &str) -> Result<Box<[crate::Rucksack]>, Vec<core::Error>> {
-    parser().parse(input)
+pub fn parse(input: &str) -> Option<Box<[crate::Rucksack]>> {
+    parser().parse(input).ok()
 }

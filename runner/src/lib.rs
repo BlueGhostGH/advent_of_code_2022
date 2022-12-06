@@ -10,13 +10,10 @@ macro_rules! days {
                     let input = [<$day>]::parse([<$day>]::INPUT);
                     let input_time = time.elapsed();
                     let input = match input {
-                        Ok(input) => input,
-                        Err(errs) => {
-                            let err = &errs[0]; // We don't care about displaying all errors
-                            let source = &[<$day>]::INPUT[err.span()];
-
+                        Some(input) => input,
+                        None => {
                             println!(
-                                "Day {day}: could not parse \"{source}\"",
+                                "Day {day}: could not parse input",
                             );
 
                             return;

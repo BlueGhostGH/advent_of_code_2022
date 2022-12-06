@@ -24,6 +24,6 @@ fn parser() -> core::BParser<Box<[crate::Elf]>> {
         .boxed()
 }
 
-pub fn parse(input: &str) -> Result<Box<[crate::Elf]>, Vec<core::Error>> {
-    parser().parse(input)
+pub fn parse(input: &str) -> Option<Box<[crate::Elf]>> {
+    parser().parse(input).ok()
 }

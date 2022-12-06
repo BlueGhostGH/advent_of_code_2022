@@ -71,7 +71,7 @@ fn instructions() -> core::BParser<Box<[crate::Instruction]>> {
         .boxed()
 }
 
-pub fn parse(input: &str) -> Result<crate::Input, Vec<core::Error>> {
+pub fn parse(input: &str) -> Option<crate::Input> {
     let stack_numbers_position = input
         .lines()
         .enumerate()
@@ -82,8 +82,7 @@ pub fn parse(input: &str) -> Result<crate::Input, Vec<core::Error>> {
                 .map(char::is_ascii_digit)
                 .unwrap_or_default()
         })
-        .map(|(index, _)| index)
-        .unwrap();
+        .map(|(index, _)| index)?;
     let drawing_input = input
         .lines()
         .take(stack_numbers_position)
@@ -95,10 +94,10 @@ pub fn parse(input: &str) -> Result<crate::Input, Vec<core::Error>> {
         .intersperse("\n")
         .collect::<String>();
 
-    let drawing = stacks().parse(&drawing_input[..])?;
-    let instructions = instructions().parse(&instructions_input[..])?;
+    let drawing = stacks().parse(&drawing_input[..]).ok()?;
+    let instructions = instructions().parse(&instructions_input[..]).ok()?;
 
-    Ok(crate::Input {
+    Some(crate::Input {
         stacks: drawing,
         instructions,
     })
