@@ -1,12 +1,15 @@
-use std::collections::HashSet;
-
 pub const INPUT: &str = include_str!("./input.txt");
 pub const DAY: usize = 4;
 
 mod parse;
 pub use parse::parse;
 
-type Assignment = HashSet<u64>;
+#[derive(Debug)]
+pub struct Assignment {
+    start: u64,
+    end: u64,
+}
+
 type Pair = (Assignment, Assignment);
 
 pub fn part1(pairs: &[Pair]) -> usize {
@@ -19,8 +22,18 @@ pub fn part1(pairs: &[Pair]) -> usize {
 pub fn part2(pairs: &[Pair]) -> usize {
     pairs
         .iter()
-        .filter(|(first, second)| !first.is_disjoint(second))
+        .filter(|(first, second)| first.overlaps(second))
         .count()
+}
+
+impl Assignment {
+    fn is_subset(&self, other: &Assignment) -> bool {
+        other.start <= self.start && self.end <= other.end
+    }
+
+    fn overlaps(&self, other: &Assignment) -> bool {
+        self.start <= other.end && other.start <= self.end
+    }
 }
 
 #[cfg(test)]

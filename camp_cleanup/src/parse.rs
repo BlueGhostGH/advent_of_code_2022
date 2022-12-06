@@ -9,7 +9,7 @@ pub fn parse(input: &str) -> Option<Box<[crate::Pair]>> {
 
                 let (start, end) = (start.parse().ok()?, end.parse().ok()?);
 
-                Some((start..=end).collect())
+                Some(crate::Assignment { start, end })
             });
 
             Some((first?, second?))
