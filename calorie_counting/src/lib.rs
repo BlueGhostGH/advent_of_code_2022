@@ -5,14 +5,18 @@ mod parse;
 pub use parse::parse;
 
 type Calories = u64;
-type Elf = Box<[Calories]>;
+
+#[derive(Debug)]
+pub struct Elf {
+    sum: Calories,
+}
 
 pub fn part1(elves: &[Elf]) -> Option<Calories> {
-    elves.iter().map(|elf| elf.iter().sum()).max()
+    elves.iter().map(|elf| elf.sum).max()
 }
 
 pub fn part2(elves: &[Elf]) -> Option<Calories> {
-    let mut elves = elves.iter().map(|elf| elf.iter().sum());
+    let mut elves = elves.iter().map(|elf| elf.sum);
 
     let top = [elves.next()?, elves.next()?, elves.next()?];
     let top = elves.fold(top, |mut top, elf| {

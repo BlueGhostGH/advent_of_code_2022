@@ -4,12 +4,14 @@ pub fn parse(input: &str) -> Option<Box<[crate::Elf]>> {
         .collect::<Vec<_>>()
         .split(|line| line.is_empty())
         .map(|elf| {
-            elf.iter()
+            let sum = elf
+                .iter()
                 .copied()
                 .map(str::parse::<crate::Calories>)
                 .map(Result::ok)
-                .collect::<Option<Vec<_>>>()
-                .map(Vec::into_boxed_slice)
+                .sum::<Option<_>>()?;
+
+            Some(crate::Elf { sum })
         })
         .collect::<Option<Vec<_>>>()
         .map(Vec::into_boxed_slice)
