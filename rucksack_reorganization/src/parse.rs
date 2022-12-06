@@ -5,8 +5,11 @@ pub fn parse(input: &str) -> Option<Box<[crate::Rucksack]>> {
             input
                 .lines()
                 .map(str::as_bytes)
+                .map(Some)
+                .map(|line| line.filter(|line| line.len() % 2 == 0))
+                .map(|line| line.filter(|line| line.iter().all(u8::is_ascii_alphabetic)))
                 .map(|line| {
-                    if line.len() % 2 == 0 {
+                    line.map(|line| {
                         let (first, second) = line.split_at(line.len() / 2);
 
                         let (first, second) = (
@@ -14,10 +17,8 @@ pub fn parse(input: &str) -> Option<Box<[crate::Rucksack]>> {
                             crate::Compartment::from(second),
                         );
 
-                        Some(crate::Rucksack { first, second })
-                    } else {
-                        None
-                    }
+                        crate::Rucksack { first, second }
+                    })
                 })
                 .collect::<Option<Vec<_>>>()
                 .map(Vec::into_boxed_slice)

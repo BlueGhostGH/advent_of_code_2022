@@ -1,6 +1,4 @@
-#![feature(array_chunks)]
-
-use std::collections::HashSet;
+#![feature(array_chunks, array_zip, exclusive_range_pattern)]
 
 pub const INPUT: &str = include_str!("./input.txt");
 pub const DAY: usize = 3;
@@ -12,7 +10,7 @@ type Item = u8;
 
 #[derive(Debug)]
 struct Compartment {
-    items: HashSet<Item>,
+    items: [bool; 26 * 2],
 }
 
 #[derive(Debug)]
@@ -28,33 +26,74 @@ pub fn part1(rucksacks: &[Rucksack]) -> u64 {
 pub fn part2(rucksacks: &[Rucksack]) -> u64 {
     rucksacks
         .array_chunks::<3>()
-        .map(|[first, second, third]| {
-            [
-                first.compartments_union(),
-                second.compartments_union(),
-                third.compartments_union(),
-            ]
-        })
+        .map(|[first, second, third]| [first, second, third].map(Rucksack::compartments_union))
         .map(|[first_elf, second_elf, third_elf]| {
             first_elf
                 .intersection(&second_elf)
-                .copied()
-                .collect::<HashSet<_>>()
                 .intersection(&third_elf)
-                .copied()
-                .collect::<HashSet<_>>()
-                .into_iter()
+                .items()
                 .map(item_priority)
                 .sum::<u64>()
         })
         .sum()
 }
 
+impl Compartment {
+    fn items(&self) -> impl Iterator<Item = u8> {
+        self.items
+            .into_iter()
+            .enumerate()
+            .filter_map(|(index, present)| {
+                if present {
+                    let item = match index {
+                        0..26 => (index as u8) + 65,
+                        26..52 => (index as u8) + 71,
+                        _ => unreachable!(),
+                    };
+
+                    Some(item)
+                } else {
+                    None
+                }
+            })
+    }
+
+    fn intersection(&self, other: &Compartment) -> Self {
+        let items = self
+            .items
+            .zip(other.items)
+            .map(|(in_self, in_other)| in_self && in_other);
+
+        Compartment { items }
+    }
+
+    fn union(&self, other: &Compartment) -> Self {
+        let items = self
+            .items
+            .zip(other.items)
+            .map(|(in_self, in_other)| in_self || in_other);
+
+        Compartment { items }
+    }
+}
+
 impl From<&[Item]> for Compartment {
     fn from(items: &[Item]) -> Self {
-        Compartment {
-            items: items.iter().copied().collect(),
-        }
+        let items = items
+            .iter()
+            .copied()
+            .fold([false; 26 * 2], |mut items, item| {
+                let index = match item {
+                    b'A'..=b'Z' => (item as usize) - 65,
+                    b'a'..=b'z' => (item as usize) - 71,
+                    _ => unreachable!(),
+                };
+
+                items[index] = true;
+                items
+            });
+
+        Compartment { items }
     }
 }
 
@@ -62,25 +101,20 @@ impl Rucksack {
     fn compute_common_sum(&self) -> u64 {
         let Rucksack { first, second } = self;
 
-        first
-            .items
-            .intersection(&second.items)
-            .copied()
-            .map(item_priority)
-            .sum()
+        first.intersection(second).items().map(item_priority).sum()
     }
 
-    fn compartments_union(&self) -> HashSet<Item> {
+    fn compartments_union(&self) -> Compartment {
         let Rucksack { first, second } = self;
 
-        first.items.union(&second.items).copied().collect()
+        first.union(second)
     }
 }
 
 fn item_priority(item: Item) -> u64 {
     match item {
-        b'a'..=b'z' => u64::from(item) - 96,
-        b'A'..=b'Z' => u64::from(item) - 38,
+        b'A'..=b'Z' => (item as u64) - 38,
+        b'a'..=b'z' => (item as u64) - 96,
         _ => unreachable!(),
     }
 }
