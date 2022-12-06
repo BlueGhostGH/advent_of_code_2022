@@ -131,6 +131,7 @@ dependencies = [
  "rock_paper_scissors",
  "rucksack_reorganization",
  "supply_stacks",
+ "tuning_trouble",
 ]
 
 [[package]]
@@ -155,6 +156,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
 dependencies = [
  "crunchy",
+]
+
+[[package]]
+name = "tuning_trouble"
+version = "0.0.0"
+dependencies = [
+ "core",
 ]
 
 [[package]]
