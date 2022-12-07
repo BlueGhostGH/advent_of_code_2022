@@ -65,6 +65,6 @@ mod tests {
 
     #[test]
     fn part2() {
-        assert_eq!(crate::part1(&crate::parse(INPUT).unwrap()), Some(24000));
+        assert_eq!(crate::part2(&crate::parse(INPUT).unwrap()), Some(24000));
     }
 }

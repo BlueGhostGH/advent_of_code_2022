@@ -5,6 +5,7 @@ fn main() {
         rucksack_reorganization => (8139, 2668),
         camp_cleanup => (471, 888),
         supply_stacks => (String::from("VCTFTJQCG"), String::from("GCFGLDNJZ")),
-        tuning_trouble => (Some(1760), Some(2974))
+        tuning_trouble => (Some(1760), Some(2974)),
+        no_space_left_on_device => (1444896, Some(404395))
     );
 }

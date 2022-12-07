@@ -1,0 +1,4 @@
+[package]
+name = "no_space_left_on_device"
+version = "0.0.0"
+edition = "2021"

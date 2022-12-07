@@ -16,3 +16,4 @@ rucksack_reorganization = { path = "../rucksack_reorganization" }
 camp_cleanup = { path = "../camp_cleanup" }
 supply_stacks = { path = "../supply_stacks" }
 tuning_trouble = { path = "../tuning_trouble" }
+no_space_left_on_device = { path = "../no_space_left_on_device" }

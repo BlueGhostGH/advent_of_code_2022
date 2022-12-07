@@ -1,11 +1,14 @@
 [workspace]
 members = [
     "core",
+
     "calorie_counting",
     "rock_paper_scissors",
     "rucksack_reorganization",
     "supply_stacks",
     "camp_cleanup",
     "tuning_trouble",
+    "no_space_left_on_device",
+
     "runner",
 ]
