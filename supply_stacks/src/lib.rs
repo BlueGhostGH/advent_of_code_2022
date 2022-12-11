@@ -8,7 +8,7 @@ pub const DAY: usize = 5;
 mod parse;
 pub use parse::parse;
 
-type Container = char;
+type Container = u8;
 type Stack = Vec<Container>;
 
 #[derive(Debug, Clone, Copy)]
@@ -62,6 +62,8 @@ impl Input {
         self.stacks
             .iter()
             .filter_map(|stack| stack.last())
+            .copied()
+            .map(char::from)
             .collect()
     }
 }

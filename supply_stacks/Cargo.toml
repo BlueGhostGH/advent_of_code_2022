@@ -2,8 +2,3 @@
 name = "supply_stacks"
 version = "0.0.0"
 edition = "2021"
-
-[dependencies]
-core = { path = "../core" }
-
-chumsky = "0.8"

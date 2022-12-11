@@ -57,13 +57,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "core"
-version = "0.0.0"
-dependencies = [
- "chumsky",
-]
-
-[[package]]
 name = "crunchy"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -123,7 +116,6 @@ dependencies = [
  "calorie_counting",
  "camp_cleanup",
  "chumsky",
- "core",
  "no_space_left_on_device",
  "paste",
  "rock_paper_scissors",
@@ -135,10 +127,6 @@ dependencies = [
 [[package]]
 name = "supply_stacks"
 version = "0.0.0"
-dependencies = [
- "chumsky",
- "core",
-]
 
 [[package]]
 name = "tiny-keccak"
@@ -152,9 +140,6 @@ dependencies = [
 [[package]]
 name = "tuning_trouble"
 version = "0.0.0"
-dependencies = [
- "core",
-]
 
 [[package]]
 name = "wasi"
