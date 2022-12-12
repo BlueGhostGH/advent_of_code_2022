@@ -121,6 +121,7 @@ dependencies = [
  "rock_paper_scissors",
  "rucksack_reorganization",
  "supply_stacks",
+ "treetop_tree_house",
  "tuning_trouble",
 ]
 
@@ -136,6 +137,10 @@ checksum = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
 dependencies = [
  "crunchy",
 ]
+
+[[package]]
+name = "treetop_tree_house"
+version = "0.0.0"
 
 [[package]]
 name = "tuning_trouble"

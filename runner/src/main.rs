@@ -6,6 +6,7 @@ fn main() {
         camp_cleanup => (471, 888),
         supply_stacks => (String::from("VCTFTJQCG"), String::from("GCFGLDNJZ")),
         tuning_trouble => (Some(1760), Some(2974)),
-        no_space_left_on_device => (1444896, Some(404395))
+        no_space_left_on_device => (1444896, Some(404395)),
+        treetop_tree_house => (1690, Some(535680))
     );
 }
