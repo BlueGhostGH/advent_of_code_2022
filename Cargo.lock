@@ -106,6 +106,10 @@ name = "rock_paper_scissors"
 version = "0.0.0"
 
 [[package]]
+name = "rope_bridge"
+version = "0.0.0"
+
+[[package]]
 name = "rucksack_reorganization"
 version = "0.0.0"
 
@@ -119,6 +123,7 @@ dependencies = [
  "no_space_left_on_device",
  "paste",
  "rock_paper_scissors",
+ "rope_bridge",
  "rucksack_reorganization",
  "supply_stacks",
  "treetop_tree_house",

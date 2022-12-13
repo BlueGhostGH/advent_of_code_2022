@@ -1,6 +1,10 @@
 use std::cell::Cell;
 
 pub fn parse(input: &str) -> Option<crate::Forest> {
+    if !input.is_ascii() {
+        return None;
+    }
+
     enum State {
         Text,
         Eol,

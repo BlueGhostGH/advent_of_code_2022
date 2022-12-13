@@ -8,6 +8,7 @@ members = [
     "tuning_trouble",          # Day 6
     "no_space_left_on_device", # Day 7
     "treetop_tree_house",      # Day 8
+    "rope_bridge",             # Day 9
 
     "runner",
 ]

@@ -16,3 +16,4 @@ supply_stacks = { path = "../supply_stacks" }
 tuning_trouble = { path = "../tuning_trouble" }
 no_space_left_on_device = { path = "../no_space_left_on_device" }
 treetop_tree_house = { path = "../treetop_tree_house" }
+rope_bridge = { path = "../rope_bridge" }

@@ -7,6 +7,7 @@ fn main() {
         supply_stacks => (String::from("VCTFTJQCG"), String::from("GCFGLDNJZ")),
         tuning_trouble => (Some(1760), Some(2974)),
         no_space_left_on_device => (1444896, Some(404395)),
-        treetop_tree_house => (1690, Some(535680))
+        treetop_tree_house => (1690, Some(535680)),
+        rope_bridge => (5930, 2443)
     );
 }
