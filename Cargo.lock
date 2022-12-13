@@ -20,6 +20,10 @@ name = "camp_cleanup"
 version = "0.0.0"
 
 [[package]]
+name = "cathode_ray_tube"
+version = "0.0.0"
+
+[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -119,6 +123,7 @@ version = "0.0.0"
 dependencies = [
  "calorie_counting",
  "camp_cleanup",
+ "cathode_ray_tube",
  "chumsky",
  "no_space_left_on_device",
  "paste",
