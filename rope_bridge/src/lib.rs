@@ -16,20 +16,12 @@ pub struct Position {
 
 type Move = Position;
 
-#[derive(Debug, Clone)]
-pub struct Directions<'i> {
-    mv: Option<Move>,
-    count: usize,
-
-    input: &'i str,
+pub fn part1(moves: &[Move]) -> u32 {
+    solve::<2>(moves.clone())
 }
 
-pub fn part1(directions: &Directions) -> u32 {
-    solve::<2>(directions.clone())
-}
-
-pub fn part2(directions: &Directions) -> u32 {
-    solve::<10>(directions.clone())
+pub fn part2(moves: &[Move]) -> u32 {
+    solve::<10>(moves.clone())
 }
 
 impl Position {
@@ -44,41 +36,6 @@ impl Position {
             }
         } else {
             self
-        }
-    }
-}
-
-impl<'i> Iterator for Directions<'i> {
-    type Item = Move;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        match self.count {
-            0 => {
-                if self.input.len() > 0 {
-                    let line = self.input.lines().next().unwrap();
-                    self.input = &self.input.strip_prefix(line).unwrap().trim_start();
-
-                    let mut tokens = line.split_ascii_whitespace();
-
-                    self.mv = Some(match tokens.next().unwrap() {
-                        "L" => Position { x: -1, y: 0 },
-                        "R" => Position { x: 1, y: 0 },
-                        "U" => Position { x: 0, y: -1 },
-                        "D" => Position { x: 0, y: 1 },
-                        _ => unreachable!(),
-                    });
-
-                    self.count = tokens.next().unwrap().parse::<usize>().ok().unwrap() - 1;
-
-                    self.mv
-                } else {
-                    None
-                }
-            }
-            _ => {
-                self.count -= 1;
-                self.mv
-            }
         }
     }
 }
@@ -104,14 +61,14 @@ fn set_bit(position: Position, slice: &mut [usize]) {
     *word |= 1 << shift;
 }
 
-pub fn solve<const LENGTH: usize>(directions: Directions) -> u32 {
+pub fn solve<const LENGTH: usize>(moves: &[Move]) -> u32 {
     let mut knots = [Position::default(); LENGTH];
     let indices = array::from_fn::<_, LENGTH, _>(|i| i);
 
     let mut visited = [0usize; 1024 * 1024 / 64];
     set_bit(Position { x: 0, y: 0 }, &mut visited);
 
-    for direction in directions {
+    for &direction in moves {
         let head = &mut knots[0];
         *head = *head + direction;
 

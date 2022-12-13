@@ -1,7 +1,7 @@
 use std::convert::identity;
 
 pub const INPUT: &str = include_str!("./input.txt");
-pub const DAY: usize = 9;
+pub const DAY: usize = 10;
 
 mod parse;
 

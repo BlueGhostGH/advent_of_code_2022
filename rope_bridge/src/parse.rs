@@ -1,27 +1,29 @@
-fn is_valid_line(line: &str) -> bool {
-    let check = |line: &str| {
+use std::iter;
+
+pub fn parse(input: &str) -> Option<Box<[crate::Move]>> {
+    if !input.is_ascii() {
+        return None;
+    }
+
+    let mut moves = Vec::new();
+
+    for line in input.lines() {
         let mut tokens = line.split_ascii_whitespace();
 
-        match tokens.next()? {
-            "L" => {}
-            "R" => {}
-            "U" => {}
-            "D" => {}
-            _ => None?,
+        let mv = match tokens.next()? {
+            "L" => crate::Position { x: -1, y: 0 },
+            "R" => crate::Position { x: 1, y: 0 },
+            "U" => crate::Position { x: 0, y: -1 },
+            "D" => crate::Position { x: 0, y: 1 },
+            _ => return None,
         };
 
-        tokens.next()?.parse::<usize>().ok()?;
+        let count = tokens.next()?.parse().ok()?;
 
-        Some(())
-    };
+        moves.extend(iter::repeat(mv).take(count));
+    }
 
-    check(line).is_some()
-}
+    let moves = moves.into_boxed_slice();
 
-pub fn parse(input: &str) -> Option<crate::Directions> {
-    (input.is_ascii() && input.lines().all(is_valid_line)).then(|| crate::Directions {
-        mv: None,
-        count: 0,
-        input,
-    })
+    Some(moves)
 }
