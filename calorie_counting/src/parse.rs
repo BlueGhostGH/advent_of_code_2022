@@ -13,6 +13,5 @@ pub fn parse(input: &str) -> Option<Box<[crate::Elf]>> {
 
             Some(crate::Elf { sum })
         })
-        .collect::<Option<Vec<_>>>()
-        .map(Vec::into_boxed_slice)
+        .collect::<Option<Box<_>>>()
 }

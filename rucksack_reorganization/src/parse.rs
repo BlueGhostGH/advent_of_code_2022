@@ -20,8 +20,7 @@ pub fn parse(input: &str) -> Option<Box<[crate::Rucksack]>> {
                         crate::Rucksack { first, second }
                     })
                 })
-                .collect::<Option<Vec<_>>>()
-                .map(Vec::into_boxed_slice)
+                .collect::<Option<Box<_>>>()
         })
         .flatten()
 }
