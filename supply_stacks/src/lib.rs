@@ -1,5 +1,3 @@
-#![feature(array_chunks, iter_intersperse)]
-
 use std::mem;
 
 pub const INPUT: &str = include_str!("./input.txt");
