@@ -17,11 +17,11 @@ pub struct Position {
 type Move = Position;
 
 pub fn part1(moves: &[Move]) -> u32 {
-    solve::<2>(moves.clone())
+    solve::<2>(moves)
 }
 
 pub fn part2(moves: &[Move]) -> u32 {
-    solve::<10>(moves.clone())
+    solve::<10>(moves)
 }
 
 impl Position {

@@ -18,6 +18,7 @@ fn main() {
         no_space_left_on_device => (1444896, Some(404395)),
         treetop_tree_house => (1690, Some(535680)),
         rope_bridge => (5930, 2443),
-        cathode_ray_tube => (14780, DAY_9_PART_2.trim() /* ELPLZGZL */)
+        cathode_ray_tube => (14780, DAY_9_PART_2.trim() /* ELPLZGZL */),
+        monkey_in_the_middle => (Some(95472), Some(17926061332u64))
     );
 }

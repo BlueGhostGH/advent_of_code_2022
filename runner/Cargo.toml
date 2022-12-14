@@ -8,13 +8,14 @@ paste = "1.0"
 
 chumsky = "0.8"
 
-calorie_counting = { path = "../calorie_counting" }
-rock_paper_scissors = { path = "../rock_paper_scissors" }
-rucksack_reorganization = { path = "../rucksack_reorganization" }
-camp_cleanup = { path = "../camp_cleanup" }
-supply_stacks = { path = "../supply_stacks" }
-tuning_trouble = { path = "../tuning_trouble" }
-no_space_left_on_device = { path = "../no_space_left_on_device" }
-treetop_tree_house = { path = "../treetop_tree_house" }
-rope_bridge = { path = "../rope_bridge" }
-cathode_ray_tube = { path = "../cathode_ray_tube" }
+calorie_counting = { path = "../calorie_counting" }               # Day 1
+rock_paper_scissors = { path = "../rock_paper_scissors" }         # Day 2
+rucksack_reorganization = { path = "../rucksack_reorganization" } # Day 3
+camp_cleanup = { path = "../camp_cleanup" }                       # Day 4
+supply_stacks = { path = "../supply_stacks" }                     # Day 5
+tuning_trouble = { path = "../tuning_trouble" }                   # Day 6
+no_space_left_on_device = { path = "../no_space_left_on_device" } # Day 7
+treetop_tree_house = { path = "../treetop_tree_house" }           # Day 8
+rope_bridge = { path = "../rope_bridge" }                         # Day 9
+cathode_ray_tube = { path = "../cathode_ray_tube" }               # Day 10
+monkey_in_the_middle = { path = "../monkey_in_the_middle" }       # Day 11

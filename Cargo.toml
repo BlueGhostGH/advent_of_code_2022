@@ -10,6 +10,7 @@ members = [
     "treetop_tree_house",      # Day 8
     "rope_bridge",             # Day 9
     "cathode_ray_tube",        # Day 10
+    "monkey_in_the_middle",    # Day 11
 
     "runner",
 ]

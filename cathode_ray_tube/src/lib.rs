@@ -4,7 +4,6 @@ pub const INPUT: &str = include_str!("./input.txt");
 pub const DAY: usize = 10;
 
 mod parse;
-
 pub use parse::parse;
 
 type Cycle = i64;
