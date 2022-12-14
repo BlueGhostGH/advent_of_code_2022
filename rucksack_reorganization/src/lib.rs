@@ -77,26 +77,6 @@ impl Compartment {
     }
 }
 
-impl From<&[Item]> for Compartment {
-    fn from(items: &[Item]) -> Self {
-        let items = items
-            .iter()
-            .copied()
-            .fold([false; 26 * 2], |mut items, item| {
-                let index = match item {
-                    b'A'..=b'Z' => (item as usize) - 65,
-                    b'a'..=b'z' => (item as usize) - 71,
-                    _ => unreachable!(),
-                };
-
-                items[index] = true;
-                items
-            });
-
-        Compartment { items }
-    }
-}
-
 impl Rucksack {
     fn compute_common_sum(&self) -> u64 {
         let Rucksack { first, second } = self;
