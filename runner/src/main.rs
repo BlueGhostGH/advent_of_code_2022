@@ -20,6 +20,7 @@ fn main() {
         rope_bridge => (5930, 2443),
         cathode_ray_tube => (14780, DAY_9_PART_2.trim() /* ELPLZGZL */),
         monkey_in_the_middle => (Some(95472), Some(17926061332u64)),
-        hill_climbing_algorithm => (Some(330), Some(321))
+        hill_climbing_algorithm => (Some(330), Some(321)),
+        distress_signal => (6428, 22464)
     );
 }

@@ -49,7 +49,6 @@ pub fn part2(cycles: &[Cycle]) -> String {
 
 #[cfg(test)]
 mod tests {
-
     const INPUT: &str = "addx 15
 addx -11
 addx 6

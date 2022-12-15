@@ -1,0 +1,4 @@
+[package]
+name = "distress_signal"
+version = "0.0.0"
+edition = "2021"

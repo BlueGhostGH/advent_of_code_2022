@@ -20,3 +20,4 @@ rope_bridge = { path = "../rope_bridge" }                         # Day 9
 cathode_ray_tube = { path = "../cathode_ray_tube" }               # Day 10
 monkey_in_the_middle = { path = "../monkey_in_the_middle" }       # Day 11
 hill_climbing_algorithm = { path = "../hill_climbing_algorithm" } # Day 12
+distress_signal = { path = "../distress_signal" }                 # Day 13

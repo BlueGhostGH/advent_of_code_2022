@@ -162,7 +162,6 @@ fn solve<const ROUNDS_COUNT: usize, const CALM: bool>(game: &mut Game) -> Option
 
 #[cfg(test)]
 mod tests {
-
     const INPUT: &str = "Monkey 0:
 Starting items: 79, 98
 Operation: new = old * 19

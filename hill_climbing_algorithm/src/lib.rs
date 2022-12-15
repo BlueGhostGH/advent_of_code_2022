@@ -1,9 +1,9 @@
+use std::collections::VecDeque;
+
 pub const INPUT: &str = include_str!("./input.txt");
 pub const DAY: usize = 12;
 
 mod parse;
-use std::collections::VecDeque;
-
 pub use parse::parse;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -91,7 +91,6 @@ impl Heightmap {
 
 #[cfg(test)]
 mod tests {
-
     const INPUT: &str = "Sabqponm
 abcryxxl
 accszExk

@@ -93,7 +93,6 @@ pub fn solve<const LENGTH: usize>(moves: &[Move]) -> u32 {
 
 #[cfg(test)]
 mod tests {
-
     const INPUT: &str = "R 4
 U 4
 L 3
