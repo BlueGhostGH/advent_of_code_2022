@@ -13,6 +13,7 @@ members = [
     "monkey_in_the_middle",    # Day 11
     "hill_climbing_algorithm", # Day 12
     "distress_signal",         # Day 13
+    "regolith_reservoir",      # Day 14
 
     "runner",
 ]
