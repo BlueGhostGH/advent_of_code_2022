@@ -22,6 +22,7 @@ fn main() {
         monkey_in_the_middle => (Some(95472), Some(17926061332u64)),
         hill_climbing_algorithm => (Some(330), Some(321)),
         distress_signal => (6428, 22464),
-        regolith_reservoir => (897, 26683)
+        regolith_reservoir => (897, 26683),
+        beacon_exclusion_zone => (5144286, Some(10229191267339u64))
     );
 }

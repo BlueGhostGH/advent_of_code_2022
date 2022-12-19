@@ -22,3 +22,4 @@ monkey_in_the_middle = { path = "../monkey_in_the_middle" }       # Day 11
 hill_climbing_algorithm = { path = "../hill_climbing_algorithm" } # Day 12
 distress_signal = { path = "../distress_signal" }                 # Day 13
 regolith_reservoir = { path = "../regolith_reservoir" }           # Day 14
+beacon_exclusion_zone = { path = "../beacon_exclusion_zone" }     # Day 15

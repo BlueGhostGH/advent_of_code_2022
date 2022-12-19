@@ -14,6 +14,7 @@ members = [
     "hill_climbing_algorithm", # Day 12
     "distress_signal",         # Day 13
     "regolith_reservoir",      # Day 14
+    "beacon_exclusion_zone",   # Day 15
 
     "runner",
 ]
