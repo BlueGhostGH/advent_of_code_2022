@@ -1,4 +1,4 @@
-#![feature(result_option_inspect)]
+#![feature(array_windows, result_option_inspect)]
 
 pub const INPUT: &str = include_str!("./input.txt");
 pub const DAY: usize = 15;
@@ -20,11 +20,11 @@ pub struct Sensor {
 }
 
 pub fn part1(sensors: &[Sensor]) -> u64 {
-    solve_part1(sensors, 2000000)
+    solution::part1(sensors, 2000000)
 }
 
 pub fn part2(sensors: &[Sensor]) -> Option<u64> {
-    solve_part2(
+    solution::part2(
         sensors,
         Position {
             x: 4000000,
@@ -33,44 +33,77 @@ pub fn part2(sensors: &[Sensor]) -> Option<u64> {
     )
 }
 
-fn solve_part1(sensors: &[Sensor], y: i64) -> u64 {
-    let mut ranges = sensors
-        .iter()
-        .filter_map(|sensor| sensor.range_at_line(y))
-        .collect::<Box<[_]>>();
-    ranges.sort_unstable_by_key(|range| range.start);
-    let merged = merge_sorted_ranges(&ranges);
+mod solution {
+    use std::{convert::identity, iter};
 
-    let mut seen = Vec::with_capacity(sensors.len());
-    merged
-        .iter()
-        .map(|range| {
-            let beacon_count = count_beacons_in_range(sensors, range, y, &mut seen);
+    use super::{
+        count_beacons_in_range, merge_sorted_ranges, points_of_interest, sensors_edges, Position,
+        Sensor,
+    };
 
-            range.length() - beacon_count
-        })
-        .sum()
-}
+    pub(super) fn part1(sensors: &[Sensor], y: i64) -> u64 {
+        let mut ranges = sensors
+            .iter()
+            .filter_map(|sensor| sensor.range_at_line(y))
+            .collect::<Box<[_]>>();
+        ranges.sort_unstable_by_key(|range| range.start);
+        let merged = merge_sorted_ranges(&ranges);
 
-fn solve_part2(sensors: &[Sensor], maximum_position: Position) -> Option<u64> {
-    (0..=maximum_position.y)
-        .find_map(|y| {
-            let mut ranges = sensors
-                .iter()
-                .filter_map(|sensor| sensor.range_at_line(y))
-                .collect::<Box<[_]>>();
-            ranges.sort_unstable_by_key(|range| range.start);
-            let merged = merge_sorted_ranges(&ranges);
+        let mut seen = Vec::with_capacity(sensors.len());
+        merged
+            .iter()
+            .map(|range| {
+                let beacon_count = count_beacons_in_range(sensors, range, y, &mut seen);
 
-            if let Some([first, _]) = merged.get(..2) {
-                let x = first.end + 1;
+                range.length() - beacon_count
+            })
+            .sum()
+    }
 
-                Some((x, y))
-            } else {
-                None
-            }
-        })
-        .map(|(x, y)| (x as u64) * 4000000 + y as u64)
+    pub(super) fn part2(sensors: &[Sensor], maximum_position: Position) -> Option<u64> {
+        let edges = sensors_edges(sensors);
+
+        let interesting_ys = edges
+            .iter()
+            .flat_map(|first_edge| {
+                edges
+                    .iter()
+                    .map(move |second_edge| (first_edge, second_edge))
+            })
+            .map(|(first_edge, second_edge)| {
+                points_of_interest(first_edge, second_edge)
+                    .into_iter()
+                    .filter_map(identity)
+            })
+            .flatten()
+            .filter(|&y| 0 <= y && y <= maximum_position.y)
+            .collect::<Box<[_]>>();
+
+        if let Some(&first) = interesting_ys.first() {
+            iter::once(&[first - 1, first])
+                .chain(interesting_ys.array_windows::<2>())
+                .filter(|[last_y, y]| y != last_y)
+                .find_map(|&[_, y]| {
+                    let mut ranges = sensors
+                        .iter()
+                        .filter_map(|sensor| sensor.range_at_line(y))
+                        .collect::<Box<[_]>>();
+                    ranges.sort_unstable_by_key(|range| range.start);
+                    let merged = merge_sorted_ranges(&ranges);
+
+                    if let Some([first, _]) = merged.get(..2) {
+                        let x = first.end + 1;
+
+                        Some((x, y))
+                    } else {
+                        None
+                    }
+                })
+                .map(|(x, y)| (x as u64) * 4000000 + y as u64)
+        } else {
+            None
+        }
+    }
 }
 
 impl Position {
@@ -177,6 +210,119 @@ fn count_beacons_in_range(
     seen.len() as u64
 }
 
+#[derive(Debug, PartialEq, Eq)]
+struct Edge {
+    from: Position,
+    to: Position,
+}
+
+impl Edge {
+    fn contains_y(&self, y: i64) -> bool {
+        let (lower_bound, higher_bound) = if self.from.y < self.to.y {
+            (self.from.y, self.to.y)
+        } else {
+            (self.to.y, self.from.y)
+        };
+
+        lower_bound <= y && y <= higher_bound
+    }
+}
+
+fn sensors_edges(sensors: &[Sensor]) -> Box<[Edge]> {
+    sensors
+        .iter()
+        .map(
+            |&Sensor {
+                 position: Position { x, y },
+                 distance,
+                 ..
+             }| {
+                let distance = distance as i64;
+
+                let left = Position { x: x - distance, y };
+                let right = Position { x: x + distance, y };
+                let top = Position { x, y: y - distance };
+                let bottom = Position { x, y: y + distance };
+
+                [
+                    Edge {
+                        from: left,
+                        to: top,
+                    },
+                    Edge {
+                        from: bottom,
+                        to: right,
+                    },
+                    Edge {
+                        from: top,
+                        to: right,
+                    },
+                    Edge {
+                        from: left,
+                        to: bottom,
+                    },
+                ]
+            },
+        )
+        .flatten()
+        .collect()
+}
+
+#[derive(Debug)]
+struct Line {
+    slope: i64,
+    y_intercept: i64,
+}
+
+impl Line {
+    fn from_points(first: Position, second: Position) -> Self {
+        let slope = (second.y - first.y) / (second.x - first.x);
+        let y_intercept = first.y - slope * first.x;
+
+        Line { slope, y_intercept }
+    }
+
+    fn intersection_y(&self, other: &Line) -> (i64, Option<i64>) {
+        let numerator = self.slope * other.y_intercept - other.slope * self.y_intercept;
+        let denominator = self.slope - other.slope;
+
+        if numerator % denominator == 0 {
+            (numerator / denominator, None)
+        } else {
+            (numerator / denominator, Some(numerator / denominator + 1))
+        }
+    }
+}
+
+fn points_of_interest(first_edge: &Edge, second_edge: &Edge) -> [Option<i64>; 2] {
+    if first_edge == second_edge {
+        return [None, None];
+    }
+
+    let first_line = Line::from_points(first_edge.from, first_edge.to);
+    let second_line = Line::from_points(second_edge.from, second_edge.to);
+    if first_line.slope == second_line.slope {
+        return [None, None];
+    }
+
+    let (y1, y2) = first_line.intersection_y(&second_line);
+    let y1 = {
+        let contained_by_first = first_edge.contains_y(y1);
+        let contained_by_second = second_edge.contains_y(y1);
+
+        contained_by_first && contained_by_second
+    }
+    .then_some(y1);
+    let y2 = y2.and_then(|y2| {
+        let contained_by_first = first_edge.contains_y(y2);
+        let contained_by_second = second_edge.contains_y(y2);
+
+        (contained_by_first && contained_by_second).then_some(y2)
+    });
+
+    [y1, y2]
+}
+
 #[cfg(test)]
 mod tests {
     const INPUT: &str = "Sensor at x=2, y=18: closest beacon is at x=-2, y=15
@@ -196,13 +342,16 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3";
 
     #[test]
     fn part1() {
-        assert_eq!(crate::solve_part1(&crate::parse(INPUT).unwrap(), 10), 26);
+        assert_eq!(
+            crate::solution::part1(&crate::parse(INPUT).unwrap(), 10),
+            26
+        );
     }
 
     #[test]
     fn part2() {
         assert_eq!(
-            crate::solve_part2(
+            crate::solution::part2(
                 &crate::parse(INPUT).unwrap(),
                 crate::Position { x: 20, y: 20 }
             ),
