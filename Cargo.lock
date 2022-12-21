@@ -116,6 +116,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1de2e551fb905ac83f73f7aedf2f0cb4a0da7e35efa24a202a936269f1f18e1"
 
 [[package]]
+name = "proboscidea_volcanium"
+version = "0.0.0"
+
+[[package]]
 name = "proc-macro-hack"
 version = "0.5.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -151,6 +155,7 @@ dependencies = [
  "monkey_in_the_middle",
  "no_space_left_on_device",
  "paste",
+ "proboscidea_volcanium",
  "regolith_reservoir",
  "rock_paper_scissors",
  "rope_bridge",

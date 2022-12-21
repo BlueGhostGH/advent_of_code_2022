@@ -15,6 +15,7 @@ members = [
     "distress_signal",         # Day 13
     "regolith_reservoir",      # Day 14
     "beacon_exclusion_zone",   # Day 15
+    "proboscidea_volcanium",   # Day 16
 
     "runner",
 ]
