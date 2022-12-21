@@ -46,7 +46,7 @@ fn floyd_warshall(valves: &[Valve]) -> crate::PathLengths {
         .map(|(index, &Valve { name, .. })| (name, index))
         .collect::<HashMap<_, _>>();
 
-    let distance = vec![usize::MAX; valves.len()].into_boxed_slice();
+    let distance = vec![u8::MAX; valves.len()].into_boxed_slice();
     let mut distances = vec![distance; valves.len()].into_boxed_slice();
     for (i, Valve { tunnels, .. }) in valves.iter().enumerate() {
         for tunnel in tunnels {
@@ -80,25 +80,24 @@ pub fn parse(input: &str) -> Option<crate::Input> {
         .lines()
         .map(parse_valve)
         .collect::<Option<Box<[_]>>>()?;
-    let shortest_path_lengths_unprocessed = floyd_warshall(&valves);
+    let shortest_path_lengths = floyd_warshall(&valves);
 
-    let starting_valve = valves.iter().position(|&Valve { name, .. }| name == "AA")?;
-    let interesting_valve_indices = iter::once(starting_valve)
-        .chain(
-            valves
-                .iter()
-                .enumerate()
-                .filter(
-                    |(
-                        _,
-                        &Valve {
-                            name, flow_rate, ..
-                        },
-                    )| flow_rate > 0 || name == "AA",
-                )
-                .map(|(index, _)| index),
+    let interesting_valve_indices = valves
+        .iter()
+        .enumerate()
+        .filter(
+            |(
+                _,
+                &Valve {
+                    name, flow_rate, ..
+                },
+            )| name == "AA" || flow_rate > 0,
         )
+        .map(|(index, _)| index)
         .collect::<Box<[_]>>();
+    let starting_valve = interesting_valve_indices
+        .iter()
+        .position(|&i| valves[i].name == "AA")?;
 
     let flow_rates = interesting_valve_indices
         .iter()
@@ -111,12 +110,12 @@ pub fn parse(input: &str) -> Option<crate::Input> {
         indices.into_iter().map(|&(index, _)| index).collect()
     };
 
-    let shortest_path_lengths = interesting_valve_indices
+    let path_lengths = interesting_valve_indices
         .iter()
         .map(|&i| {
             interesting_valve_indices
                 .iter()
-                .map(|&j| shortest_path_lengths_unprocessed[i][j])
+                .map(|&j| shortest_path_lengths[i][j])
                 .collect()
         })
         .collect();
@@ -127,6 +126,6 @@ pub fn parse(input: &str) -> Option<crate::Input> {
         flow_rates,
         flow_rate_indices,
 
-        shortest_path_lengths,
+        path_lengths,
     })
 }
