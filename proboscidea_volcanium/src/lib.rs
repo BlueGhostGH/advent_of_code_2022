@@ -35,8 +35,46 @@ pub fn part1(input: &Input) -> u16 {
     best
 }
 
-pub fn part2(_input: &Input) -> u64 {
-    todo!()
+pub fn part2(input: &Input) -> u16 {
+    let mut best_for_visited = vec![0; u16::MAX as usize];
+
+    branch_and_bound(
+        &input.flow_rates,
+        &input.flow_rate_indices,
+        &input.path_lengths,
+        State::new(input.starting_valve as u8, 26),
+        &mut best_for_visited,
+        &mut 0,
+        // This is probably not entirely correct
+        |bound, best| bound > best * 3 / 4,
+    );
+
+    let mut best_for_visited = best_for_visited
+        .into_iter()
+        .enumerate()
+        .filter(|&(_, best)| best > 0)
+        .map(|(index, best)| (index as u16, best))
+        .collect::<Box<[_]>>();
+    best_for_visited.sort_unstable_by_key(|&(_, best)| Reverse(best));
+
+    let mut best = 0;
+
+    for (index, &(character_visited, character_best)) in best_for_visited.iter().enumerate() {
+        for &(elephant_visited, elephant_best) in &best_for_visited[index + 1..] {
+            let score = character_best + elephant_best;
+
+            if score <= best {
+                break;
+            }
+
+            if character_visited & elephant_visited == 0 {
+                best = score;
+                break;
+            }
+        }
+    }
+
+    best
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -209,6 +247,6 @@ Valve JJ has flow rate=21; tunnel leads to valve II";
 
     #[test]
     fn part2() {
-        assert_eq!(crate::part2(&crate::parse(INPUT).unwrap()), 2216);
+        assert_eq!(crate::part2(&crate::parse(INPUT).unwrap()), 1707);
     }
 }

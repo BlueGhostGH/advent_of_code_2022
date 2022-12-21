@@ -1,4 +1,4 @@
-use std::{cmp::Reverse, collections::HashMap, iter};
+use std::{cmp::Reverse, collections::HashMap};
 
 #[derive(Debug)]
 struct Valve<'i> {
@@ -82,22 +82,20 @@ pub fn parse(input: &str) -> Option<crate::Input> {
         .collect::<Option<Box<[_]>>>()?;
     let shortest_path_lengths = floyd_warshall(&valves);
 
-    let interesting_valve_indices = valves
+    let mut interesting_valve_indices = valves
         .iter()
         .enumerate()
-        .filter(
-            |(
-                _,
-                &Valve {
-                    name, flow_rate, ..
-                },
-            )| name == "AA" || flow_rate > 0,
-        )
+        .filter(|(_, &Valve { flow_rate, .. })| flow_rate > 0)
         .map(|(index, _)| index)
-        .collect::<Box<[_]>>();
-    let starting_valve = interesting_valve_indices
-        .iter()
-        .position(|&i| valves[i].name == "AA")?;
+        .collect::<Vec<_>>();
+
+    let starting_valve = {
+        let valve = valves.iter().position(|&Valve { name, .. }| name == "AA")?;
+        let index = interesting_valve_indices.binary_search(&valve).err()?;
+        interesting_valve_indices.insert(index, valve);
+
+        index
+    };
 
     let flow_rates = interesting_valve_indices
         .iter()
