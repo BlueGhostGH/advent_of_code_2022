@@ -20,11 +20,36 @@ pub fn part1(directions: &Directions) -> usize {
     simulate(directions, 2022).len()
 }
 
-pub fn part2(_directions: &Directions) -> u64 {
-    todo!()
+pub fn part2(directions: &Directions) -> Option<u64> {
+    let chamber = simulate(directions, 3000);
+
+    let (pattern_start, pattern_length) = combinations(chamber.array_windows::<50>().enumerate())
+        .find(|((_, a), (_, b))| a == b)
+        .map(|((i, _), (j, _))| (i, j - i))?;
+
+    let (rocks_before_pattern, rocks_generated_in_pattern) = (
+        count_rocks_in_chamber(&chamber[..pattern_start]),
+        count_rocks_in_chamber(&chamber[pattern_start..pattern_start + pattern_length]),
+    );
+
+    let (number_of_pattern_repetitions, leftover_rocks) = (
+        (1_000_000_000_000 - rocks_before_pattern as u64) / rocks_generated_in_pattern as u64,
+        (1_000_000_000_000 - rocks_before_pattern as u64) % rocks_generated_in_pattern as u64,
+    );
+
+    let leftover_rocks_height = (0..=pattern_length).find(|&i| {
+        count_rocks_in_chamber(&chamber[pattern_start..pattern_start + i])
+            >= leftover_rocks as usize
+    })?;
+
+    let height = number_of_pattern_repetitions * pattern_length as u64
+        + pattern_start as u64
+        + leftover_rocks_height as u64;
+
+    Some(height)
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Cell {
     Emty,
     Frst,
@@ -204,6 +229,60 @@ fn simulate(directions: &Directions, rocks_count: usize) -> Vec<Row> {
     chamber
 }
 
+#[derive(Debug)]
+struct Combinations<I: Iterator> {
+    item: Option<I::Item>,
+
+    iter1: I,
+    iter2: I,
+}
+
+impl<I, A> Iterator for Combinations<I>
+where
+    I: Iterator<Item = A> + Clone,
+    I::Item: Clone,
+{
+    type Item = (A, A);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if let Some(b) = self.iter2.next() {
+            let a = self.item.clone().unwrap();
+
+            Some((a, b))
+        } else {
+            self.item = self.iter1.next();
+
+            self.item.clone().and_then(|a| {
+                self.iter2 = self.iter1.clone();
+
+                self.iter2.next().map(|b| (a, b))
+            })
+        }
+    }
+}
+
+fn combinations<I>(mut iter: I) -> Combinations<I>
+where
+    I: Iterator + Clone,
+{
+    Combinations {
+        item: iter.next(),
+
+        iter1: iter.clone(),
+        iter2: iter,
+    }
+}
+
+fn count_rocks_in_chamber(chamber: &[Row]) -> usize {
+    chamber
+        .iter()
+        .flatten()
+        .filter(|&&cell| !matches!(cell, Cell::Emty))
+        .count()
+        * 5
+        / 22
+}
+
 #[cfg(test)]
 mod tests {
     const INPUT: &str = ">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>";
@@ -215,6 +294,9 @@ mod tests {
 
     #[test]
     fn part2() {
-        assert_eq!(crate::part2(&crate::parse(INPUT).unwrap()), 1514285714288);
+        assert_eq!(
+            crate::part2(&crate::parse(INPUT).unwrap()),
+            Some(1514285714288)
+        );
     }
 }
