@@ -160,6 +160,7 @@ dependencies = [
  "no_space_left_on_device",
  "paste",
  "proboscidea_volcanium",
+ "pyroclastic_flow",
  "regolith_reservoir",
  "rock_paper_scissors",
  "rope_bridge",
