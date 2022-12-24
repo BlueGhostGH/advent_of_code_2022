@@ -17,6 +17,7 @@ members = [
     "beacon_exclusion_zone",   # Day 15
     "proboscidea_volcanium",   # Day 16
     "pyroclastic_flow",        # Day 17
+    "boiling_boulders",        # Day 18
 
     "runner",
 ]
