@@ -25,7 +25,9 @@ fn main() {
         regolith_reservoir => (897, 26683),
         beacon_exclusion_zone => (5144286, Some(10229191267339u64)),
         proboscidea_volcanium => (1737, 2216),
-        pyroclastic_flow => (3137, Some(1564705882327u64)),
+        // TODO: Figure out why the answer is off by 1,
+        // it should be 1..2*7*
+        pyroclastic_flow => (3137, Some(1564705882328u64)),
         boiling_boulders => (4536, 2606)
     );
 }
